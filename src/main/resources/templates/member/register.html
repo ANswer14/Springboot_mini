@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <form action="/registerController" method="post">
+        <h1>회원 가입</h1>
+        ID <input th:field="${member.getId()}" type="text" name="id">
+        <p th:if="${#fields.hasErrors('member')}" th:errors="${member.getId()}" class="fieldError">Incorrect data</p>
+        PW <input type="password" name="password1">
+        PWcheck <input type="password" name="password2">
+        Name <input type="text" name="name">
+        <button>가입</button>
+    </form>
+
+</body>
+</html>
