@@ -7,11 +7,24 @@
 <body>
     <form action="/registerController" method="post">
         <h1>회원 가입</h1>
-        ID <input th:field="${member.getId()}" type="text" name="id">
-        <p th:if="${#fields.hasErrors('member')}" th:errors="${member.getId()}" class="fieldError">Incorrect data</p>
-        PW <input type="password" name="password1">
-        PWcheck <input type="password" name="password2">
-        Name <input type="text" name="name">
+        ID <input type="text" th:field="${member.id}">
+        <div>
+        <p th:if="${#fields.hasErrors('member.id')}" th:errors="*{member.id}">Incorrect data</p>
+        <p th:if="!${#fields.hasErrors('member.id')}"></p>
+        </div>
+        <div>
+        PW <input type="password" th:field="${member.password1}">
+        <p th:if="${#fields.hasErrors('member.password1')}" th:errors="*{member.password1}">Incorrect data</p>
+        </div>
+
+        <br>
+        PWcheck <input type="password" th:field="${member.password2}">
+        <p th:if="${#fields.hasErrors('member.password2')}" th:errors="*{member.password2}">Incorrect data</p>
+
+        <br>
+        Name <input type="text" th:field="${member.name}">
+        <p th:if="${#fields.hasErrors('member.name')}" th:errors="*{member.name}">Incorrect data</p>
+        <br>
         <button>가입</button>
     </form>
 

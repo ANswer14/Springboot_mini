@@ -1,6 +1,5 @@
 package com.lyh.mini.controller;
 
-import com.lyh.mini.domain.Member;
 import com.lyh.mini.domain.RegisterMemberForm;
 import com.lyh.mini.service.MemberService;
 import jakarta.validation.Valid;
@@ -21,21 +20,25 @@ public class MemberController {
     }
 
     @GetMapping("/goRegisterController")
-    public String goRegisterController() {
+    public String goRegisterController(Model model) {
+        model.addAttribute("member", new RegisterMemberForm());
         return "member/register";
     }
 
     @PostMapping("/registerController")
-    public String registerController(@Valid RegisterMemberForm member, Model model, BindingResult bindingResult,
-                                     @RequestParam("name") String name,
-                                     @RequestParam("password1") String password1,
-                                     @RequestParam("password2") String password2,
-                                     @RequestParam("id") String id) {
-        MEMBERSERVICE.register(name, id, password1, password2,  model);
-        model.addAttribute("member", member);
+    public String registerController(@Valid @ModelAttribute("member") RegisterMemberForm member, BindingResult bindingResult) {
+        if (!member.getPassword1().equals(member.getPassword2())) {
+            bindingResult.rejectValue("password2", "notequal", "비밀번호가 틀렸습니다.");
+        }
+
         if (bindingResult.hasErrors()) {
             return "member/register";
         }
+
+        if (MEMBERSERVICE.register(member)) {
+            return "member/register";
+        }
+
         return "redirect:/";
     }
 
