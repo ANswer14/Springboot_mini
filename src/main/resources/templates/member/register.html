@@ -5,28 +5,45 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="/registerController" method="post">
+<div>
+<!-- 자바스크립트 사용(키다운 이벤트 -> 공백 제거 -->
+<script>
+    function disableSpacebar(event) {
+        if (event.code === "Space") {
+            event.preventDefault();
+        }
+    }
+
+    window.onload = function () {
+        let inputFields = document.getElementsByTagName("input");
+        for (let i = 0; i < inputFields.length; i++) {
+            inputFields[i].addEventListener('keydown', disableSpacebar);
+        }
+    };
+</script>
+    <!--<form action="/registerController" method="post">-->
+    <form th:action="@{/registerController}" method="post">
         <h1>회원 가입</h1>
-        ID <input type="text" th:field="${member.id}">
+        ID <input type="text" th:field="${member.id}" id="id">
         <div>
         <p th:if="${#fields.hasErrors('member.id')}" th:errors="*{member.id}">Incorrect data</p>
         <p th:if="!${#fields.hasErrors('member.id')}"></p>
         </div>
         <div>
-        PW <input type="password" th:field="${member.password1}">
+        PW <input type="password" th:field="${member.password1}" id="password1">
         <p th:if="${#fields.hasErrors('member.password1')}" th:errors="*{member.password1}">Incorrect data</p>
         </div>
 
         <br>
-        PWcheck <input type="password" th:field="${member.password2}">
+        PWcheck <input type="password" th:field="${member.password2}" id="password2">
         <p th:if="${#fields.hasErrors('member.password2')}" th:errors="*{member.password2}">Incorrect data</p>
 
         <br>
-        Name <input type="text" th:field="${member.name}">
+        Name <input type="text" th:field="${member.name}" id="name">
         <p th:if="${#fields.hasErrors('member.name')}" th:errors="*{member.name}">Incorrect data</p>
         <br>
-        <button>가입</button>
+        <button type="submit">가입</button>
     </form>
-
+</div>
 </body>
 </html>

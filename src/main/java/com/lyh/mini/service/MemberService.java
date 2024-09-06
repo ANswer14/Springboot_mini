@@ -8,6 +8,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 public class MemberService {
 
@@ -24,11 +26,12 @@ public class MemberService {
     public Boolean register(RegisterMemberForm registeringMember) {
         try {
 
-            ValidationCheck(registeringMember.getId());
+            validationCheck(registeringMember.getId());
             Member member = new Member();
-            member.setMemberID(registeringMember.getId());
+            member.setUsername(registeringMember.getId());
             member.setMemberNM(registeringMember.getName());
-            member.setMemberPW(passwordEncoder.encode(registeringMember.getPassword1()));
+            member.setPassword(passwordEncoder.encode(registeringMember.getPassword1()));
+            member.setMemberRole("user");
             MEMBERREPOSITORY.save(member);
             return false;
         } catch (IllegalStateException e) {
@@ -37,8 +40,8 @@ public class MemberService {
     }
 
 
-    public void ValidationCheck(String id) {
-        MEMBERREPOSITORY.findByMemberID(id).ifPresent(m -> {
+    public void validationCheck(String id) {
+        MEMBERREPOSITORY.findByUsername(id).ifPresent(m -> {
             throw new IllegalStateException();
         });
     }

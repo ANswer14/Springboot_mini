@@ -19,7 +19,7 @@ public class MemberController {
         this.MEMBERSERVICE = MEMBERSERVICE;
     }
 
-    @GetMapping("/goRegisterController")
+    @GetMapping("/register")
     public String goRegisterController(Model model) {
         model.addAttribute("member", new RegisterMemberForm());
         return "member/register";
@@ -27,6 +27,7 @@ public class MemberController {
 
     @PostMapping("/registerController")
     public String registerController(@Valid @ModelAttribute("member") RegisterMemberForm member, BindingResult bindingResult) {
+        System.out.println("registerController in");
         if (!member.getPassword1().equals(member.getPassword2())) {
             bindingResult.rejectValue("password2", "notequal", "비밀번호가 틀렸습니다.");
         }
@@ -39,13 +40,19 @@ public class MemberController {
             return "member/register";
         }
 
-        return "redirect:/";
+        return "home";
     }
 
-    @GetMapping("/goLoginController")
-    public String goLoginController() {
+    @GetMapping("/user-list")
+    public String userList() {
+        return "user-list.html";
+    }
+
+    @GetMapping("/login")
+    public String login() {
         return "member/login";
     }
+
 
 
 }

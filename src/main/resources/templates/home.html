@@ -1,14 +1,17 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
 </head>
 <body>
     <h1>Home</h1>
-    <a href="goLoginController">로그인</a>
-    <a href="goRegisterController">회원가입</a>
-<!--    <div th:field="*{data}"/>-->
-<!--    <div th:if="${#fields.hasErrors('data')}" th:errors="*{data}">Incorrect date</div>-->
+    <a sec:authorize="!isAuthenticated()" href="/login">로그인</a>
+    <a sec:authorize="isAuthenticated()" href="/logout">로그아웃</a>
+    <a sec:authorize="!isAuthenticated()" href="/register">Register</a>
+    <!--    <div th:field="*{data}"/>-->
+    <!--    <div th:if="${#fields.hasErrors('data')}" th:errors="*{data}">Incorrect date</div>-->
+    <a sec:authorize="isAuthenticated()" href="/user-list">유저리스트</a>
 </body>
 </html>
